@@ -3,6 +3,7 @@ package com.movies.ui.track.details;
 import com.movies.data.remote.response.Track;
 import com.movies.injection.ConfigPersistent;
 import com.movies.ui.base.BasePresenter;
+import com.movies.ui.video.VideoPlayerActivity;
 import com.movies.util.AppUtil;
 import com.movies.util.MediaPlayerUtil;
 import com.movies.util.RxUtil;
@@ -18,11 +19,15 @@ import io.reactivex.schedulers.Schedulers;
 import static com.movies.util.Constants.AppConstants.DISPLAY_DATE_PATTERN;
 import static com.movies.util.Constants.AppConstants.RESPONSE_DATE_PATTERN;
 
+/**
+ * {@link TrackDetailsActivity}'s Presenter
+ * */
 @ConfigPersistent
 public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.View> implements
         TrackDetailsContract.Presenter {
     private final MediaPlayerUtil mMediaPlayerUtil;
 
+    private Track mTrack;
     private Disposable mDisposable;
 
     @Inject
@@ -30,6 +35,9 @@ public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.Vi
         mMediaPlayerUtil = mediaPlayerUtil;
     }
 
+    /**
+     * Attaches the {@link TrackDetailsContract.View} to the {@link BasePresenter}
+     * */
     @Override
     public void attachView(TrackDetailsContract.View view) {
         super.attachView(view);
@@ -37,22 +45,35 @@ public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.Vi
         getView().initViews();
     }
 
+    /**
+     * Display Track data on their corresponding View's
+     * @param track The Track that was selected
+     * */
     @Override
     public void setTrack(Track track) {
-        setPreviewImage(track);
+        mTrack = track;
+
         getView().setTrackImage(track.getArtworkUrl100());
         getView().setTitle(track.getTrackName());
         getView().setDescription(track.getLongDescription());
-        displayDate(track);
+        displayDate();
+        setPreviewImage();
     }
 
+    /**
+     * Opens the {@link VideoPlayerActivity} which will play the Track's preview video
+     * */
     @Override
     public void onClickPlayFab() {
-        System.out.println("Play video");
+        getView().gotoVideoPlayer(mTrack.getPreviewUrl());
     }
 
-    private void setPreviewImage(Track track) {
-        mDisposable = mMediaPlayerUtil.getPreviewImage(track.getPreviewUrl())
+    /**
+     * Asynchronously gets a Bitmap image of the Track's preview video and puts it into the corresponding View
+     * @see MediaPlayerUtil#getPreviewImage(String)
+     * */
+    private void setPreviewImage() {
+        mDisposable = mMediaPlayerUtil.getPreviewImage(mTrack.getPreviewUrl())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bitmap -> {
@@ -62,11 +83,14 @@ public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.Vi
                 }, Throwable::printStackTrace);
     }
 
-    private void displayDate(Track track) {
+    /**
+     * Format and display Track's release date
+     * */
+    private void displayDate() {
         try {
             String date = AppUtil.formatDate(RESPONSE_DATE_PATTERN,
                     DISPLAY_DATE_PATTERN,
-                    track.getReleaseDate());
+                    mTrack.getReleaseDate());
 
             getView().setDate(date);
         } catch (ParseException e) {
@@ -74,6 +98,9 @@ public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.Vi
         }
     }
 
+    /**
+     * Disposes the disposable
+     * */
     @Override
     protected void onDestroy() {
         RxUtil.dispose(mDisposable);

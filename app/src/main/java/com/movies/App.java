@@ -11,21 +11,26 @@ import com.movies.injection.module.RoomModule;
 public class App extends Application {
     private AppComponent mAppComponent;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        mAppComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .roomModule(new RoomModule(this))
-                .build();
-    }
-
+    /**
+     * @param context Context
+     * @return The App instance
+     * */
     public static App get(Context context) {
         return (App) context.getApplicationContext();
     }
 
+    /**
+     * Builds the {@link AppComponent} using Dagger
+     * @return The built AppComponent
+     * */
     public AppComponent getAppComponent() {
+        if (mAppComponent == null) {
+            mAppComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(this))
+                    .roomModule(new RoomModule(this))
+                    .build();
+        }
+
         return mAppComponent;
     }
 }

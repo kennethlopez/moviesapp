@@ -15,6 +15,9 @@ import butterknife.ButterKnife;
 
 import static com.movies.util.Constants.AppConstants.TRACK_IMAGE_CORNER_RADIUS;
 
+/**
+ * ViewHolder for {@link TracksAdapter}
+ * */
 class TrackViewHolder extends RecyclerView.ViewHolder {
     private Context mContext;
 
@@ -25,14 +28,26 @@ class TrackViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+    /**
+     * Sets the image
+     * @param url Link to the image
+     * */
     void setImage(String url) {
         AppUtil.setImage(mContext, url, mThumbnail, TRACK_IMAGE_CORNER_RADIUS);
     }
 
+    /**
+     * Sets the title
+     * @param title The title
+     * */
     void setTitle(String title) {
         mTitle.setText(title);
     }
 
+    /**
+     * Sets the price
+     * @param price The price
+     * */
     void setPrice(String price) {
         mPrice.setText(price);
     }

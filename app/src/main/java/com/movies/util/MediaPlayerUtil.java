@@ -9,8 +9,6 @@ import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
-import com.google.android.exoplayer2.offline.ActionFileUpgradeUtil;
-import com.google.android.exoplayer2.offline.DefaultDownloadIndex;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -23,27 +21,26 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
-import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import com.movies.BuildConfig;
 import com.movies.injection.ApplicationContext;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 
 import static com.movies.util.Constants.AppConstants.APP_NAME;
 
+/**
+ * Utilities for media player
+ * source: https://github.com/google/ExoPlayer/blob/release-v2/demos/main/src/main/java/com/google/android/exoplayer2/demo/DemoApplication.java
+ * */
 @Singleton
 public class MediaPlayerUtil {
-    private static final String TAG = "MediaPlayerUtil";
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";
 
     private Context mContext;
@@ -60,43 +57,44 @@ public class MediaPlayerUtil {
         mUserAgent = Util.getUserAgent(context, APP_NAME);
     }
 
-    /** Returns a {@link DataSource.Factory}. */
-    public DataSource.Factory buildDataSourceFactory() {
-        DefaultDataSourceFactory upstreamFactory =
-                new DefaultDataSourceFactory(mContext, buildHttpDataSourceFactory());
-        return buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache());
-    }
-
-    public MediaSource createMediaSource(Uri uri) {
-        return new ProgressiveMediaSource.Factory(buildDataSourceFactory())
-                .createMediaSource(uri);
-    }
-
-    /** Returns a {@link HttpDataSource.Factory}. */
-    public HttpDataSource.Factory buildHttpDataSourceFactory() {
-        return new DefaultHttpDataSourceFactory(mUserAgent);
-    }
-
-    /** Returns whether extension renderers should be used. */
-    public boolean useExtensionRenderers() {
-        return "withExtensions".equals(BuildConfig.FLAVOR);
-    }
-
+    /**
+     * Returns a representative frame from the media file link. This method saves an instance
+     * of the retrieved frame so that when accessing the same link more than once it won't need
+     * to create another {@link MediaMetadataRetriever} to get the representative frame which is
+     * time consuming but all the saved instance will be destroyed once the main activity is destroyed
+     *
+     * @param videoUrl The media file link
+     * @return A {@link Single<Bitmap>} so that the task can be asynchronous
+     * */
     public Single<Bitmap> getPreviewImage(String videoUrl) {
         return Single.create(emitter -> {
             Bitmap previewImage = mPreviewImages.get(videoUrl);
+
+            // not null previewImage means that the videoUrl has already been paired with a Bitmap and just needs to emit that bitmap
             if (previewImage == null) {
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
                 mediaMetadataRetriever.setDataSource(videoUrl, new HashMap<>());
 
                 Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime(-1);
 
-                mPreviewImages.put(videoUrl, bitmap);
+                mPreviewImages.put(videoUrl, bitmap); // pair the bitmap with the url save it on the HashMap
                 emitter.onSuccess(bitmap);
+                return;
             }
 
             emitter.onSuccess(previewImage);
         });
+    }
+
+
+    /**
+     * Build a MediaSource for media player
+     * @param uri Uri of the media file
+     * @return The created {@link ProgressiveMediaSource}
+     * */
+    public MediaSource createMediaSource(Uri uri) {
+        return new ProgressiveMediaSource.Factory(buildDataSourceFactory())
+                .createMediaSource(uri);
     }
 
     public RenderersFactory buildRenderersFactory(boolean preferExtensionRenderer) {
@@ -111,7 +109,25 @@ public class MediaPlayerUtil {
                 .setExtensionRendererMode(extensionRendererMode);
     }
 
-    protected synchronized Cache getDownloadCache() {
+    /** Returns a {@link DataSource.Factory}. */
+    private DataSource.Factory buildDataSourceFactory() {
+        DefaultDataSourceFactory upstreamFactory =
+                new DefaultDataSourceFactory(mContext, buildHttpDataSourceFactory());
+        return buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache());
+    }
+
+    /** Returns a {@link HttpDataSource.Factory}. */
+    private HttpDataSource.Factory buildHttpDataSourceFactory() {
+        return new DefaultHttpDataSourceFactory(mUserAgent);
+    }
+
+    /** Returns whether extension renderers should be used. */
+    private boolean useExtensionRenderers() {
+        //noinspection ConstantConditions
+        return "withExtensions".equals(BuildConfig.FLAVOR);
+    }
+
+    private synchronized Cache getDownloadCache() {
         if (mDownloadCache == null) {
             File downloadContentDirectory = new File(getDownloadDirectory(), DOWNLOAD_CONTENT_DIRECTORY);
             mDownloadCache = new SimpleCache(downloadContentDirectory,
@@ -119,20 +135,6 @@ public class MediaPlayerUtil {
                     getDatabaseProvider());
         }
         return mDownloadCache;
-    }
-
-    private void upgradeActionFile(
-            String fileName, DefaultDownloadIndex downloadIndex, boolean addNewDownloadsAsCompleted) {
-        try {
-            ActionFileUpgradeUtil.upgradeAndDelete(
-                    new File(getDownloadDirectory(), fileName),
-                    null,
-                    downloadIndex,
-                    true,
-                    addNewDownloadsAsCompleted);
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to upgrade action file: " + fileName, e);
-        }
     }
 
     private DatabaseProvider getDatabaseProvider() {
@@ -152,7 +154,7 @@ public class MediaPlayerUtil {
         return mDownloadDirectory;
     }
 
-    protected static CacheDataSourceFactory buildReadOnlyCacheDataSource(
+    private static CacheDataSourceFactory buildReadOnlyCacheDataSource(
             DataSource.Factory upstreamFactory, Cache cache) {
         return new CacheDataSourceFactory(cache,
                 upstreamFactory,

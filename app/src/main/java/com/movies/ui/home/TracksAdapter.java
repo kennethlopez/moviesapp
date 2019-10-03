@@ -24,6 +24,9 @@ public class TracksAdapter extends RecyclerView.Adapter<TrackViewHolder> {
         mTracks = new ArrayList<>();
     }
 
+    /**
+     * Inflates the layout and creates the ViewHolder to represent the items
+     * */
     @NonNull
     @Override
     public TrackViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,15 +36,27 @@ public class TracksAdapter extends RecyclerView.Adapter<TrackViewHolder> {
         return new TrackViewHolder(parent.getContext(), view);
     }
 
+    /**
+     * @return The size of the items
+     * */
     @Override
     public int getItemCount() {
         return mTracks.size();
     }
 
+    /**
+     * Sets the list of Tracks which will be out on the RecyclerView
+     * @param tracks the list of Tracks that will be displayed
+     * */
     public void setData(List<Track> tracks) {
         mTracks = tracks;
     }
 
+    /**
+     * Sets the {@link TrackViewHolder} data
+     * @param holder The ViewHolder for the items
+     * @param position The item position
+     * */
     @Override
     public void onBindViewHolder(@NonNull TrackViewHolder holder, int position) {
         Track track = mTracks.get(position);

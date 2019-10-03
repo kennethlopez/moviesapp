@@ -12,6 +12,7 @@ import com.movies.injection.module.ActivityModule;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,15 +65,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(KEY_ACTIVITY_ID, mActivityId);
     }
 
+    // for presenter to have lifecycle awareness
+
     @Override
     protected void onStart() {
         super.onStart();
-
         if (mPresenter != null) mPresenter.onStart();
     }
 

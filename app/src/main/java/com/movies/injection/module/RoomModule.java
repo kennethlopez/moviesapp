@@ -10,6 +10,9 @@ import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Provides local database dependencies
+ * */
 @Module
 public class RoomModule {
     private AppDatabase mAppDatabase;

@@ -8,6 +8,9 @@ import java.util.List;
 
 import io.reactivex.subjects.PublishSubject;
 
+/**
+ * Presenter and View interfaces for {@link HomeActivity} and {@link HomePresenter}
+ * */
 public interface HomeContract {
     interface View extends BaseView {
         void setRefreshing(boolean refreshing);

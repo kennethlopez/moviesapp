@@ -8,7 +8,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+/**
+ * Provides onClick and onLongClick event listener for RecyclerViews
+ * */
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     public interface ClickListener {
         void onClick(View view, int position);

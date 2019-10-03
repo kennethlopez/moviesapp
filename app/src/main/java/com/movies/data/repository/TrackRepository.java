@@ -14,8 +14,6 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-import static com.movies.data.remote.response.ResponseFields.Track.PRIMARY_GENRE_NAME;
-
 public class TrackRepository {
     private final TrackDao mTrackDao;
     private final ApiService mApiService;
@@ -31,12 +29,18 @@ public class TrackRepository {
     }
 
     /** Invokes {@link TrackDao#updateTracks(List)} which updates the local database
-     * @param tracks list that would be used to update the local database
+     * @param tracks List of Tracks would be used to update the local database
      */
     public void updateDbTracks(List<Track> tracks) {
         mTrackDao.updateTracks(Track.toTrackEntities(tracks));
     }
 
+    /**
+     * Queries all Tracks from the local database and invokes {@link #groupTracks(List)} to transform
+     * it into a {@link List<TrackGroup>}
+     * @return A TrackGroup list using the query result
+     * @see Track#fromTrackEntities(List) to see how the query result is transformed into {@link List<Track>}
+     * */
     public Flowable<List<TrackGroup>> getDbTrackGroups() {
         return mTrackDao.getTracks()
                 .map(trackEntities -> groupTracks(Track.fromTrackEntities(trackEntities)));
@@ -56,9 +60,9 @@ public class TrackRepository {
     }
 
     /**
-     * This method will group the {@link Track} list on the {@link SearchResult}
+     * Groups the Track list inside {@link #mSearchResult} into a {@link List<TrackGroup>}
      * @see #groupTracks(List)
-     * @return A new or old {@link TrackGroup} list depending on whether the {@link SearchResult}
+     * @return A new or old {@link TrackGroup} list depending on whether the {@link #mSearchResult}
      * has been updated
      * */
     public List<TrackGroup> getTrackGroups() {
@@ -74,11 +78,11 @@ public class TrackRepository {
     }
 
     /**
-     * This method groups a {@link Track} list with the same {@link PRIMARY_GENRE_NAME}
+     * Creates a {@link List<TrackGroup>}
      * @param tracks Track list that will be grouped
      * @return A {@link TrackGroup} list which contains a list of the grouped tracks
+     * @see #addToTrackGroups(List, Track)
      * */
-    @SuppressWarnings("JavadocReference")
     private List<TrackGroup> groupTracks(List<Track> tracks) {
         List<TrackGroup> trackGroups = new ArrayList<>();
 
@@ -91,9 +95,11 @@ public class TrackRepository {
     }
 
     /**
-     * This method adds a {@link Track} to the same {@link TrackGroup} on the list or
+     * Adds a {@link Track} to the same {@link TrackGroup} on the list or creates a new one
      * @param trackGroups List of TrackGroup where the Track will be added
      * @param track Track that will be added to the list of TrackGroup
+     *
+     * @see TrackGroup#isSameGroup(Track)
      * */
     private void addToTrackGroups(List<TrackGroup> trackGroups, Track track) {
         for (TrackGroup trackGroup : trackGroups) {
@@ -106,7 +112,6 @@ public class TrackRepository {
         // create a new TrackGroup then add it to the list
         TrackGroup trackGroup = new TrackGroup();
         trackGroup.add(track);
-
         trackGroups.add(trackGroup);
     }
 

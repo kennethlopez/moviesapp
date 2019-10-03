@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import com.movies.data.remote.response.Track;
 import com.movies.ui.base.BaseView;
 
+/**
+ * Presenter and View interfaces for {@link TrackDetailsActivity} and {@link TrackDetailsPresenter}
+ * */
 interface TrackDetailsContract {
     interface View extends BaseView {
 
@@ -17,6 +20,8 @@ interface TrackDetailsContract {
         void setDescription(String description);
 
         void setDate(String date);
+
+        void gotoVideoPlayer(String videoUrl);
     }
 
     interface Presenter {

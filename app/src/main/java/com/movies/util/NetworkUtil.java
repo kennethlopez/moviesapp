@@ -8,13 +8,17 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+/**
+ * Utilities for network management
+ * */
 public class NetworkUtil {
 
     /**
-     * Returns true if device is connected to Wifi/data
+     * Indicates whether device is connected to Wifi/data
+     * @param context Application context
+     * @return {@code true} if device is connected to Wifi/data, {@code false} otherwise.
      * */
     public static boolean isNetworkConnected(final Context context) {
-        // check if connected to WiFi/data
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -27,7 +31,9 @@ public class NetworkUtil {
     }
 
     /**
-     * returns true if exception was caused by device not able to connect to internet
+     * Indicates whether device has access to the internet
+     * @param throwable The throwable which needs to checked
+     * @return {@code true} if device has access to the internet, {@code false} otherwise.
      * */
     public static boolean isConnectionError(Throwable throwable) {
         return throwable instanceof UnknownHostException ||

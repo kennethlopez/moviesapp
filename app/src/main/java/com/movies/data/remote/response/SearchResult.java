@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * A POJO class to represent a search result from the remote API
- * The {@link SerializedName} value matches the API fields
  * */
+@SuppressWarnings("unused")
 public class SearchResult implements ResponseFields.Result {
     @SerializedName(RESULT_COUNT)
     @Expose

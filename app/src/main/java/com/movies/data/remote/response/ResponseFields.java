@@ -1,5 +1,16 @@
 package com.movies.data.remote.response;
 
+import com.movies.data.local.entity.TrackEntity;
+
+import java.util.List;
+
+/**
+ * Fields that corresponds to Api results, can also be used on Room database entities. See bellow
+ * for an example use of these fields
+ * @see TrackEntity
+ * @see Track
+ * @see com.movies.data.remote.response.Track#fromTrackEntities(List)
+ * */
 public interface ResponseFields {
     interface Result {
         String RESULT_COUNT = "resultCount";

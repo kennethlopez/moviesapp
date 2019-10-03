@@ -24,14 +24,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.subjects.PublishSubject;
 
-public class TracksGroupViewHolder extends RecyclerView.ViewHolder {
+/**
+ * ViewHolder for {@link TracksGroupAdapter}
+ * */
+public class TrackGroupViewHolder extends RecyclerView.ViewHolder {
     @Inject TracksAdapter mTracksAdapter;
 
     private Context mContext;
     private PublishSubject<Track> mSubject;
     private List<Track> mTracks = new ArrayList<>();
 
-    TracksGroupViewHolder(Context context, @NonNull View itemView) {
+    TrackGroupViewHolder(Context context, @NonNull View itemView) {
         super(itemView);
         mContext = context;
         mSubject = PublishSubject.create();
@@ -42,6 +45,9 @@ public class TracksGroupViewHolder extends RecyclerView.ViewHolder {
         initTracksContainer();
     }
 
+    /**
+     * Initializes the RecyclerView which will hold the list of tracks
+     * */
     private void initTracksContainer() {
         int horizontalMargin = AppUtil.dpToPx(8);
 
@@ -52,7 +58,6 @@ public class TracksGroupViewHolder extends RecyclerView.ViewHolder {
         mTracksContainer.setItemAnimator(new DefaultItemAnimator());
         mTracksContainer.addItemDecoration(new HorizontalMarginItemDecoration(horizontalMargin));
         mTracksContainer.setAdapter(mTracksAdapter);
-
         mTracksContainer.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                 mTracksContainer,
                 new RecyclerTouchListener.ClickListener() {
@@ -68,16 +73,29 @@ public class TracksGroupViewHolder extends RecyclerView.ViewHolder {
                 }));
     }
 
+    /**
+     * Sets the header
+     * @param header The header
+     * */
     void setHeader(String header) {
         mHeader.setText(header);
     }
 
+    /**
+     * Sets the list of Tracks which will be put on the RecyclerView
+     * @param tracks The list of Tracks that will be displayed
+     * */
     void setTracks(List<Track> tracks) {
         mTracks = tracks;
         mTracksAdapter.setData(tracks);
         mTracksAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Sets the {@link PublishSubject<Track>}
+     * @param subject The PublishSubject where the clicked Track will be emitted
+     * @see #initTracksContainer()
+     * */
     void setPublishSubject(PublishSubject<Track> subject) {
         mSubject = subject;
     }

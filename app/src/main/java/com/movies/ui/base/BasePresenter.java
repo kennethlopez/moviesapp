@@ -19,13 +19,15 @@ public abstract class BasePresenter <T extends BaseView> implements Presenter<T>
         mView = null;
     }
 
-    public boolean isViewAttached() {
+    protected boolean isViewAttached() {
         return mView != null;
     }
 
     protected final T getView() {
         return mView;
     }
+
+    // methods for lifecycle awareness
 
     protected void onStart() {}
 

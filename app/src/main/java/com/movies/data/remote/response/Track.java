@@ -11,9 +11,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * A POJO class to represent Track from the remote API
- * The {@link SerializedName} value matches the API fields
+ * A POJO class to represent Track from the remote Api
  * */
+@SuppressWarnings("unused")
 public class Track implements ResponseFields.Track {
     @SerializedName(TRACK_NAME)
     @Expose
