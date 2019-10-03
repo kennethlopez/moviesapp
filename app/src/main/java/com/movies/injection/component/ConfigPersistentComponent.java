@@ -2,6 +2,7 @@ package com.movies.injection.component;
 
 import com.movies.injection.ConfigPersistent;
 import com.movies.injection.module.ActivityModule;
+import com.movies.ui.base.BaseActivity;
 
 import dagger.Component;
 

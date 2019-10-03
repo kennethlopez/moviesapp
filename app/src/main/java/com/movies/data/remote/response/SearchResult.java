@@ -5,7 +5,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SearchResult implements ResponseFields.Result{
+/**
+ * A POJO class to represent a search result from the remote API
+ * The {@link SerializedName} value matches the API fields
+ * */
+public class SearchResult implements ResponseFields.Result {
     @SerializedName(RESULT_COUNT)
     @Expose
     private int resultCount;

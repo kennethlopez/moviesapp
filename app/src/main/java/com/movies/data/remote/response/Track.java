@@ -3,35 +3,29 @@ package com.movies.data.remote.response;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.movies.data.local.model.TrackModel;
+import com.google.gson.reflect.TypeToken;
+import com.movies.data.local.entity.TrackEntity;
+import com.movies.util.AppUtil;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * A POJO class to represent Track from the remote API
+ * The {@link SerializedName} value matches the API fields
+ * */
 public class Track implements ResponseFields.Track {
-    @SerializedName(KIND)
+    @SerializedName(TRACK_NAME)
     @Expose
-    private String kind;
+    private String trackName;
 
     @SerializedName(TRACK_ID)
     @Expose
     private long trackId;
 
-    @SerializedName(TRACK_NAME)
-    @Expose
-    private String trackName;
-
     @SerializedName(PREVIEW_URL)
     @Expose
     private String previewUrl;
-
-    @SerializedName(ARTWORK_URL30)
-    @Expose
-    private String artworkUrl30;
-
-    @SerializedName(ARTWORK_URL60)
-    @Expose
-    private String artworkUrl60;
 
     @SerializedName(ARTWORK_URL100)
     @Expose
@@ -40,6 +34,10 @@ public class Track implements ResponseFields.Track {
     @SerializedName(TRACK_PRICE)
     @Expose
     private double trackPrice;
+
+    @SerializedName(RELEASE_DATE)
+    @Expose
+    private String releaseDate;
 
     @SerializedName(COUNTRY)
     @Expose
@@ -53,20 +51,28 @@ public class Track implements ResponseFields.Track {
     @Expose
     private String primaryGenreName;
 
-    @SerializedName(CONTENT_ADVISORY_RATING)
-    @Expose
-    private String contentAdvisoryRating;
-
-    @SerializedName(SHORT_DESCRIPTION)
-    @Expose
-    private String shortDescription;
-
     @SerializedName(LONG_DESCRIPTION)
     @Expose
     private String longDescription;
 
-    public String getKind() {
-        return kind;
+    /**
+     * This method converts a {@link Track} list into a {@link TrackEntity} list by serializing
+     * the {@link Track} list into JSON and deserialize it into a {@link TrackEntity} list
+     * @param tracks Track list that will be converted
+     * @return A {@link TrackEntity} list
+     * */
+    public static List<TrackEntity> toTrackEntities(List<Track> tracks) {
+        Gson gson = AppUtil.getGson();
+        Type type = new TypeToken<List<TrackEntity>>() {}.getType();
+
+        return gson.fromJson(gson.toJson(tracks, type), type);
+    }
+
+    public static List<Track> fromTrackEntities(List<TrackEntity> trackEntities) {
+        Gson gson = AppUtil.getGson();
+        Type type = new TypeToken<List<Track>>() {}.getType();
+
+        return gson.fromJson(gson.toJson(trackEntities, type), type);
     }
 
     public long getTrackId() {
@@ -79,14 +85,6 @@ public class Track implements ResponseFields.Track {
 
     public String getPreviewUrl() {
         return previewUrl;
-    }
-
-    public String getArtworkUrl30() {
-        return artworkUrl30;
-    }
-
-    public String getArtworkUrl60() {
-        return artworkUrl60;
     }
 
     public String getArtworkUrl100() {
@@ -109,34 +107,11 @@ public class Track implements ResponseFields.Track {
         return primaryGenreName;
     }
 
-    public String getContentAdvisoryRating() {
-        return contentAdvisoryRating;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
     public String getLongDescription() {
         return longDescription;
     }
 
-    public TrackModel toTrackModel() {
-        Gson gson = new Gson();
-        return gson.fromJson(gson.toJson(this), TrackModel.class);
-    }
-
-    public static List<TrackModel> toTrackModels(List<Track> tracks) {
-        if (tracks != null) {
-            List<TrackModel> models = new ArrayList<>();
-
-            for (Track track : tracks) {
-                models.add(track.toTrackModel());
-            }
-
-            return models;
-        }
-
-        return null;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 }

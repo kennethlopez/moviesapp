@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_track_img"
+        android:layout_width="@dimen/track_image_width"
+        android:layout_height="@dimen/track_image_height"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_track_title"
+        android:layout_width="@dimen/track_image_width"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/item_track_img"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/small_space"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="@dimen/small_text" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_track_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/item_track_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="@dimen/small_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

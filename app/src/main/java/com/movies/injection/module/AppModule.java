@@ -33,6 +33,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.HEADERS;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.NONE;
 
+/**
+ * Provide application-level dependencies.
+ */
 @Module
 public class AppModule {
     private static final String TAG = "AppModule";
@@ -98,9 +101,10 @@ public class AppModule {
                     return chain.proceed(request);
                 })
                 .addInterceptor(chain -> {  // User-Agent changes
+                    String userAgent = System.getProperty("http.agent");
                     Request original = chain.request();
                     Request request = original.newBuilder()
-                            .addHeader("User-Agent", System.getProperty("http.agent"))
+                            .addHeader("User-Agent", userAgent != null ? userAgent : "")
                             .build();
                     return chain.proceed(request);
                 })
@@ -108,8 +112,7 @@ public class AppModule {
                 .cache(cache)
                 .connectTimeout(15L, TimeUnit.SECONDS)
                 .writeTimeout(15L, TimeUnit.SECONDS)
-                .readTimeout(30L, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true);
+                .readTimeout(12L, TimeUnit.SECONDS);
     }
 
     @Provides

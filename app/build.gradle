@@ -46,6 +46,7 @@ dependencies {
     final GLIDE_VERSION = '4.9.0'
     final BUTTERKNIFE_VERSION = '10.2.0'
     final DAGGER_VERSION = '2.11'
+    final EXOPLAYER = '2.10.5'
 
     def daggerCompiler = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
@@ -76,6 +77,11 @@ dependencies {
     // media/image
     implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
     annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
+
+    // video player
+    implementation "com.google.android.exoplayer:exoplayer-core:$EXOPLAYER"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$EXOPLAYER"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$EXOPLAYER"
 
     // view binding
     implementation "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/big_space">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_track_details_video_img"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/video_preview_height"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activity_track_details_play_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/activity_track_details_video_img"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_track_details_video_img"
+            app:layout_constraintStart_toStartOf="@+id/activity_track_details_video_img"
+            app:layout_constraintEnd_toEndOf="@+id/activity_track_details_video_img"
+            android:backgroundTint="@color/black"
+            android:background="@color/black"
+            android:alpha="0.6"
+            android:src="@drawable/exo_icon_play"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_track_details_track_img"
+            android:layout_width="@dimen/track_image_width"
+            android:layout_height="@dimen/track_image_height"
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_details_video_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/activity_track_details_title_container"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginStart="@dimen/big_space"
+            android:layout_marginEnd="@dimen/big_space"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:id="@+id/activity_track_details_title_container"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/track_image_height"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@+id/activity_track_details_track_img"
+            app:layout_constraintStart_toEndOf="@+id/activity_track_details_track_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/big_space">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_track_details_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textColor="@color/black"
+                android:textSize="@dimen/track_title_big" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/activity_track_details_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/activity_track_details_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_details_title_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/big_space"
+            android:layout_marginEnd="@dimen/big_space"
+            android:layout_marginTop="@dimen/default_space" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

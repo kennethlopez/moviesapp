@@ -4,6 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 public class NetworkUtil {
 
     /**
@@ -20,5 +24,14 @@ public class NetworkUtil {
         }
 
         return false;
+    }
+
+    /**
+     * returns true if exception was caused by device not able to connect to internet
+     * */
+    public static boolean isConnectionError(Throwable throwable) {
+        return throwable instanceof UnknownHostException ||
+                throwable instanceof SocketTimeoutException ||
+                throwable instanceof ConnectException;
     }
 }

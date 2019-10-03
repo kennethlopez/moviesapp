@@ -7,10 +7,11 @@ import com.google.gson.Gson;
 import com.movies.data.remote.ApiService;
 import com.movies.data.local.AppDatabase;
 import com.movies.data.local.dao.TrackDao;
+import com.movies.data.repository.TrackRepository;
 import com.movies.injection.ApplicationContext;
 import com.movies.injection.module.AppModule;
 import com.movies.injection.module.RoomModule;
-import com.movies.util.RxBus;
+import com.movies.util.MediaPlayerUtil;
 
 import javax.inject.Singleton;
 
@@ -30,9 +31,11 @@ public interface AppComponent {
 
     ApiService apiService();
 
-    RxBus rxBus();
-
     AppDatabase appDatabase();
 
     TrackDao trackDao();
+
+    TrackRepository trackRepository();
+
+    MediaPlayerUtil mediaPlayerUtil();
 }

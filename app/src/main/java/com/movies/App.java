@@ -6,6 +6,7 @@ import android.content.Context;
 import com.movies.injection.component.AppComponent;
 import com.movies.injection.component.DaggerAppComponent;
 import com.movies.injection.module.AppModule;
+import com.movies.injection.module.RoomModule;
 
 public class App extends Application {
     private AppComponent mAppComponent;
@@ -16,6 +17,7 @@ public class App extends Application {
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+                .roomModule(new RoomModule(this))
                 .build();
     }
 

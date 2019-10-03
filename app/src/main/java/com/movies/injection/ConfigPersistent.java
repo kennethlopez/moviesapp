@@ -1,5 +1,7 @@
 package com.movies.injection;
 
+import com.movies.injection.component.ConfigPersistentComponent;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

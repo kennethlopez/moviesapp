@@ -15,6 +15,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Abstract activity that every other Activity in this application must implement. It handles
+ * creation of Dagger components and makes sure that instances of ConfigPersistentComponent survive
+ * across configuration changes.
+ */
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private static final String KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID";
