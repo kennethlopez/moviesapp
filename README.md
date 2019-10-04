@@ -27,9 +27,9 @@ The architecture of this app is based on the [MVP](https://en.wikipedia.org/wiki
 Imagine you have to implement a sign in screen.
 
 1. Create a new package under `ui` called `signin`
-2. Create an new Activity called `SignInActivity` class that extends `BaseActivity`. You could also use a Fragment
-3. Define the view and presenter interfaces that your Activity/Fragment and Presenter is going to implement. Create a new interface called `SignInContract`, inside create another interface called `View` that extends `BaseView` and another one called `Presenter`. Add the methods that you think will be necessary on both interfaces, e.g. `showSignInSuccessful()` for the `View` and `signIn(String email)` for the `Presenter`
-   Code should look like this:
+2. Create a new Activity called `SignInActivity` class that extends `BaseActivity`. You could also use a Fragment
+3. Define the view and presenter interfaces that your Activity/Fragment and Presenter is going to implement. Create a new interface called `SignInContract`, inside create another interface called `View` that extends `BaseView` and another one called `Presenter`. Add the methods that you think will be necessary on both interfaces, e.g. `showSignInSuccessful()` for the `View` and `signIn(String email)` for the `Presenter`.
+    Code should look like this:
 
     ```java
     interface SignInContract {
@@ -45,7 +45,7 @@ Imagine you have to implement a sign in screen.
 4. Create a `SignInPresenter` class that extends `BasePresenter<SignInContract.View>` and implements `SignInContract.Presenter`
 5. Implement the methods in `SignInPresenter` that your Activity requires to perform the necessary actions, e.g. `signIn(String email)`. Once the sign in action finishes you should call `getView().showSignInSuccessful()`
 6. Make your `SignInActivity` implement `SignInContract.View`and implement the required methods like `showSignInSuccessful()`
-7. In your activity, inject a new instance of `SignInPresenter` and call `presenter.attachView(this)` and `super.attachPresenter(BasePresenter presenter)` from `onCreate` accordingly. This will allow your presenter to have an instance of your activity and it would also let your presenter have a lifecycle awareness, this way you can override `onStart`, `onResume`, `onPause`, `onStop` and `onDestroy` methods on your Presenter. Also, set up a click listener in your button that calls `presenter.signIn(email)`
+7. In your activity, inject a new instance of `SignInPresenter` and call `presenter.attachView(this)` and `super.attachPresenter(presenter)` from `onCreate` accordingly. This will allow your presenter to have an instance of your activity and it would also let your Presenter have a lifecycle awareness, this way you can override `onStart`, `onResume`, `onPause`, `onStop` and `onDestroy` methods on your Presenter. Also, set up a click listener in your button that calls `presenter.signIn(email)`
 
 ## License
 
