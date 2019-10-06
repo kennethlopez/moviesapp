@@ -2,7 +2,7 @@ package com.movies.ui.video;
 
 import com.google.android.exoplayer2.util.Util;
 import com.movies.injection.ConfigPersistent;
-import com.movies.ui.base.BasePresenter;
+import com.movies.ui.base.Presenter;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * {@link VideoPlayerActivity}'s Presenter
  * */
 @ConfigPersistent
-public class VideoPlayerPresenter extends BasePresenter<VideoPlayerContact.View> implements
+public class VideoPlayerPresenter extends Presenter<VideoPlayerContact.View> implements
     VideoPlayerContact.Presenter {
     private String mVideoUrl;
 
@@ -19,7 +19,7 @@ public class VideoPlayerPresenter extends BasePresenter<VideoPlayerContact.View>
     VideoPlayerPresenter() { }
 
     /**
-     * Attaches the {@link VideoPlayerContact.View} to the {@link BasePresenter}
+     * Attaches the {@link VideoPlayerContact.View} to the {@link Presenter}
      * */
     @Override
     public void attachView(VideoPlayerContact.View view) {

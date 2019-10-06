@@ -1,43 +1,11 @@
 package com.movies.ui.base;
 
-
 /**
- * Base class that implements the Presenter interface and provides a base implementation for
- * {@link #attachView(BaseView)} and {@link #detachView()}. It also handles keeping a reference
- * to the view that can be accessed from the children classes by calling {@link #getView()}.
+ * Every presenter in the app must either implement this interface or extend {@link Presenter}
+ * indicating the {@link BaseView} type that wants to be attached with.
  */
-public abstract class BasePresenter <T extends BaseView> implements Presenter<T> {
-    private T mView;
+public interface BasePresenter<V extends BaseView> {
+    void attachView(V view);
 
-    @Override
-    public void attachView(T view) {
-        mView = view;
-    }
-
-    @Override
-    public void detachView() {
-        mView = null;
-    }
-
-    protected boolean isViewAttached() {
-        return mView != null;
-    }
-
-    protected final T getView() {
-        return mView;
-    }
-
-    // methods for lifecycle awareness
-
-    protected void onStart() {}
-
-    protected void onResume() {}
-
-    protected void onPause() {}
-
-    protected void onStop() {}
-
-    protected void onDestroy() {
-        detachView();
-    }
+    void detachView();
 }

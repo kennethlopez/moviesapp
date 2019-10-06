@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * creation of Dagger components and makes sure that instances of ConfigPersistentComponent survive
  * across configuration changes.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<V extends BaseView> extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private static final String KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID";
     private static final AtomicLong NEXT_ID = new AtomicLong(0);
@@ -29,19 +29,31 @@ public abstract class BaseActivity extends AppCompatActivity {
             sComponentsMap = new LongSparseArray<>();
 
     private ActivityComponent mComponent;
-    private BasePresenter mPresenter;
+    private Presenter<V> mPresenter;
     private long mActivityId;
 
+    /**
+     * @return The ActivityComponent
+     * */
     public ActivityComponent getComponent() {
         return mComponent;
     }
 
+    /**
+     * @return The App instance
+     * */
     protected App getApp() {
         return (App) getApplicationContext();
     }
 
-    protected void attachPresenter(BasePresenter presenter) {
-        mPresenter = presenter;
+    /**
+     * Sets the Presenter and attaches a view into it
+     * @param presenter The presenter
+     * @param view The View that will be attached to the presenter
+     * */
+    protected void attachPresenter(BasePresenter<V> presenter, V view) {
+        presenter.attachView(view);
+        mPresenter = (Presenter<V>) presenter;
     }
 
     @Override

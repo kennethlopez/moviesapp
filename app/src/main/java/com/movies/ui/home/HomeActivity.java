@@ -30,14 +30,13 @@ import io.reactivex.subjects.PublishSubject;
 /**
  * {@link HomePresenter}'s View
  * */
-public class HomeActivity extends BaseActivity implements HomeContract.View {
+public class HomeActivity extends BaseActivity<HomeContract.View> implements HomeContract.View {
     @Inject HomePresenter mPresenter;
     @Inject TracksGroupAdapter mTracksGroupAdapter;
 
     /**
      * Injects the class to the {@link ActivityComponent}.
      * Binds the class to the ButterKnife.
-     * Attaches the class to the Presenter.
      * Attaches the Presenter to the BaseActivity
      * */
     @Override
@@ -48,9 +47,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         getComponent().inject(this);
         ButterKnife.bind(this);
 
-        mPresenter.attachView(this);
-
-        super.attachPresenter(mPresenter);
+        super.attachPresenter(mPresenter, this);
     }
 
     /**

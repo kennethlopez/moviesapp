@@ -3,6 +3,7 @@ package com.movies.ui.track.details;
 import android.graphics.Bitmap;
 
 import com.movies.data.remote.response.Track;
+import com.movies.ui.base.BasePresenter;
 import com.movies.ui.base.BaseView;
 
 /**
@@ -24,7 +25,7 @@ interface TrackDetailsContract {
         void gotoVideoPlayer(String videoUrl);
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter<View> {
         void setTrack(Track track);
 
         void onClickPlayFab();

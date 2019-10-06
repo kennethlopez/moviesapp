@@ -28,8 +28,8 @@ import static com.movies.util.Constants.AppConstants.KEY_VIDEO_URL;
 /**
  * {@link VideoPlayerPresenter}'s View
  * */
-public class VideoPlayerActivity extends BaseActivity implements VideoPlayerContact.View,
-        PlaybackPreparer {
+public class VideoPlayerActivity extends BaseActivity<VideoPlayerContact.View> implements
+        VideoPlayerContact.View, PlaybackPreparer {
     @Inject VideoPlayerPresenter mPresenter;
     @Inject MediaPlayerUtil mMediaPlayerUtil;
 
@@ -52,7 +52,6 @@ public class VideoPlayerActivity extends BaseActivity implements VideoPlayerCont
     /**
      * Injects the class to the {@link ActivityComponent}.
      * Binds the class to the ButterKnife.
-     * Attaches the class to the Presenter.
      * Attaches the Presenter to the BaseActivity
      * */
     @Override
@@ -63,9 +62,7 @@ public class VideoPlayerActivity extends BaseActivity implements VideoPlayerCont
         getComponent().inject(this);
         ButterKnife.bind(this);
 
-        mPresenter.attachView(this);
-
-        super.attachPresenter(mPresenter);
+        super.attachPresenter(mPresenter, this);
     }
 
     /**

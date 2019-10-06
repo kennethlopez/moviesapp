@@ -5,7 +5,7 @@ import com.movies.data.remote.response.SearchResult;
 import com.movies.data.remote.response.Track;
 import com.movies.data.repository.TrackRepository;
 import com.movies.injection.ConfigPersistent;
-import com.movies.ui.base.BasePresenter;
+import com.movies.ui.base.Presenter;
 import com.movies.util.NetworkUtil;
 import com.movies.util.RxUtil;
 
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
  * {@link HomeActivity}'s Presenter
  * */
 @ConfigPersistent
-public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
+public class HomePresenter extends Presenter<HomeContract.View> implements HomeContract.Presenter {
     private final TrackRepository mTrackRepository;
 
     private Disposable mDisposable;
@@ -34,7 +34,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     }
 
     /**
-     * Attaches the {@link HomeContract.View} to the {@link BasePresenter}
+     * Attaches the {@link HomeContract.View} to the {@link Presenter}
      * */
     @Override
     public void attachView(HomeContract.View view) {

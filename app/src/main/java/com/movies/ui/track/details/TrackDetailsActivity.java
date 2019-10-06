@@ -28,7 +28,8 @@ import static com.movies.util.Constants.AppConstants.TRACK_IMAGE_CORNER_RADIUS;
 /**
  * {@link TrackDetailsPresenter}'s View
  * */
-public class TrackDetailsActivity extends BaseActivity implements TrackDetailsContract.View {
+public class TrackDetailsActivity extends BaseActivity<TrackDetailsContract.View> implements
+        TrackDetailsContract.View {
     @Inject TrackDetailsPresenter mPresenter;
     @Inject MediaPlayerUtil mMediaPlayerUtil;
 
@@ -47,7 +48,6 @@ public class TrackDetailsActivity extends BaseActivity implements TrackDetailsCo
     /**
      * Injects the class to the {@link ActivityComponent}.
      * Binds the class to the ButterKnife.
-     * Attaches the class to the Presenter.
      * Attaches the Presenter to the BaseActivity
      * */
     @Override
@@ -58,9 +58,7 @@ public class TrackDetailsActivity extends BaseActivity implements TrackDetailsCo
         getComponent().inject(this);
         ButterKnife.bind(this);
 
-        mPresenter.attachView(this);
-
-        super.attachPresenter(mPresenter);
+        super.attachPresenter(mPresenter, this);
     }
 
     /**

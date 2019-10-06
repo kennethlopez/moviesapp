@@ -2,6 +2,7 @@ package com.movies.ui.home;
 
 import com.movies.data.misc.TrackGroup;
 import com.movies.data.remote.response.Track;
+import com.movies.ui.base.BasePresenter;
 import com.movies.ui.base.BaseView;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public interface HomeContract {
         void gotoTrackDetails(Track track);
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter<View> {
         void onRefresh();
 
         void onClickRetry();

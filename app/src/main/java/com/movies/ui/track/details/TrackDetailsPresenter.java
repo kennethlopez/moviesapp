@@ -2,7 +2,7 @@ package com.movies.ui.track.details;
 
 import com.movies.data.remote.response.Track;
 import com.movies.injection.ConfigPersistent;
-import com.movies.ui.base.BasePresenter;
+import com.movies.ui.base.Presenter;
 import com.movies.ui.video.VideoPlayerActivity;
 import com.movies.util.AppUtil;
 import com.movies.util.MediaPlayerUtil;
@@ -23,7 +23,7 @@ import static com.movies.util.Constants.AppConstants.RESPONSE_DATE_PATTERN;
  * {@link TrackDetailsActivity}'s Presenter
  * */
 @ConfigPersistent
-public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.View> implements
+public class TrackDetailsPresenter extends Presenter<TrackDetailsContract.View> implements
         TrackDetailsContract.Presenter {
     private final MediaPlayerUtil mMediaPlayerUtil;
 
@@ -36,7 +36,7 @@ public class TrackDetailsPresenter extends BasePresenter<TrackDetailsContract.Vi
     }
 
     /**
-     * Attaches the {@link TrackDetailsContract.View} to the {@link BasePresenter}
+     * Attaches the {@link TrackDetailsContract.View} to the {@link Presenter}
      * */
     @Override
     public void attachView(TrackDetailsContract.View view) {

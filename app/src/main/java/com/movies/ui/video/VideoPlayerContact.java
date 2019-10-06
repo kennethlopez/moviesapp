@@ -1,16 +1,13 @@
 package com.movies.ui.video;
 
+
+import com.movies.ui.base.BasePresenter;
 import com.movies.ui.base.BaseView;
 
 /**
  * Presenter and View interfaces for {@link VideoPlayerActivity} and {@link VideoPlayerPresenter}
  * */
 public interface VideoPlayerContact {
-    interface Presenter {
-
-        void setVideoUrl(String videoUrl);
-    }
-
     interface View extends BaseView {
 
         void initializePlayer(String videoUrl);
@@ -22,5 +19,11 @@ public interface VideoPlayerContact {
         boolean playerInitialized();
 
         void releasePlayer();
+
+    }
+
+    interface Presenter extends BasePresenter<View> {
+
+        void setVideoUrl(String videoUrl);
     }
 }
