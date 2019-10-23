@@ -36,16 +36,6 @@ public class TrackDetailsPresenter extends Presenter<TrackDetailsContract.View> 
     }
 
     /**
-     * Attaches the {@link TrackDetailsContract.View} to the {@link Presenter}
-     * */
-    @Override
-    public void attachView(TrackDetailsContract.View view) {
-        super.attachView(view);
-
-        getView().initViews();
-    }
-
-    /**
      * Display Track data on their corresponding View's
      * @param track The Track that was selected
      * */

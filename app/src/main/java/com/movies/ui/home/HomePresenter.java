@@ -40,7 +40,6 @@ public class HomePresenter extends Presenter<HomeContract.View> implements HomeC
     public void attachView(HomeContract.View view) {
         super.attachView(view);
 
-        getView().initViews();
         searchTracks();
         onTrackClicked();
     }

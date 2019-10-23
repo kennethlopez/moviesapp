@@ -24,12 +24,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public abstract class BaseActivity<V extends BaseView> extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private static final String KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID";
-    private static final AtomicLong NEXT_ID = new AtomicLong(0);
+    private static final AtomicLong sNextId = new AtomicLong(0);
     private static final LongSparseArray<ConfigPersistentComponent>
             sComponentsMap = new LongSparseArray<>();
 
     private ActivityComponent mComponent;
-    private Presenter<V> mPresenter;
+    private Presenter mPresenter;
     private long mActivityId;
 
     /**
@@ -53,7 +53,8 @@ public abstract class BaseActivity<V extends BaseView> extends AppCompatActivity
      * */
     protected void attachPresenter(BasePresenter<V> presenter, V view) {
         presenter.attachView(view);
-        mPresenter = (Presenter<V>) presenter;
+        mPresenter = (Presenter) presenter;
+        view.initViews();
     }
 
     @Override
@@ -62,7 +63,7 @@ public abstract class BaseActivity<V extends BaseView> extends AppCompatActivity
         // Create the ActivityComponent and reuses cached ConfigPersistentComponent if this is
         // being called after a configuration change.
         mActivityId = savedInstanceState != null ?
-                savedInstanceState.getLong(KEY_ACTIVITY_ID) : NEXT_ID.getAndIncrement();
+                savedInstanceState.getLong(KEY_ACTIVITY_ID) : sNextId.getAndIncrement();
 
         ConfigPersistentComponent configPersistentComponent = sComponentsMap.get(mActivityId, null);
 

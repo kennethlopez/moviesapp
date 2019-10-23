@@ -19,16 +19,6 @@ public class VideoPlayerPresenter extends Presenter<VideoPlayerContact.View> imp
     VideoPlayerPresenter() { }
 
     /**
-     * Attaches the {@link VideoPlayerContact.View} to the {@link Presenter}
-     * */
-    @Override
-    public void attachView(VideoPlayerContact.View view) {
-        super.attachView(view);
-
-        getView().initViews();
-    }
-
-    /**
      * Sets {@link #mVideoUrl}
      * */
     @Override
@@ -36,7 +26,7 @@ public class VideoPlayerPresenter extends Presenter<VideoPlayerContact.View> imp
         mVideoUrl = videoUrl;
     }
 
-    // Note: "Util.SDK_INT" if conditions, prevents the execution of the same code on onStart and onResume
+    // Note: "Util.SDK_INT" if conditions prevents the execution of the same code on onStart and onResume
     // and on onPause and onStop
 
     /**
